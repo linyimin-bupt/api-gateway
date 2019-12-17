@@ -46,4 +46,10 @@ export class AtomServiceInfo {
     const insertResult = await collection.insertOne(obj)
     return insertResult.result.ok == 1
   }
+  
+  public static async count(): Promise<number> {
+    const collection = await Mongo.db.collection(collectionName)
+    const number = await collection.count()
+    return number
+  }
 }
