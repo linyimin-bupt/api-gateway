@@ -38,7 +38,12 @@ export class AtomServiceInfo {
    */
   public static async insert(obj: AtomServiceInfoObj): Promise<boolean> {
     const collection = await Mongo.db.collection(collectionName)
-    const insertResult = await collection.findOneAndUpdate({ name: obj.name }, obj, {upsert: true})
-    return insertResult.ok == 1
+    // 如果已经存在,不能注册
+    const result = await AtomServiceInfo.findByName(obj.name)
+    if (result) {
+      return false
+    }
+    const insertResult = await collection.insertOne(obj)
+    return insertResult.result.ok == 1
   }
 }

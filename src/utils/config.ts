@@ -1,3 +1,7 @@
+/**
+ * 根据环境变量加载配置文件
+ */
+
 import * as dotenv  from 'dotenv'
 import path         from 'path'
 
