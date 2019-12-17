@@ -1,0 +1,23 @@
+{
+  "name": "api-gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "API",
+    "gateway"
+  ],
+  "author": "linyimin",
+  "license": "ISC",
+  "dependencies": {
+    "etcd3": "^0.2.13",
+    "mongodb": "^3.4.0",
+    "tracer": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^3.3.12"
+  }
+}
