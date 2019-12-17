@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "jest --verbose --passWithNoTests"
+    "test": "jest --verbose --passWithNoTests --detectOpenHandles"
   },
   "jest": {
     "rootDir": "./src/tests",
