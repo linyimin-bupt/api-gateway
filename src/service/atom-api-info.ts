@@ -49,7 +49,7 @@ export class AtomServiceInfo {
   
   public static async count(): Promise<number> {
     const collection = await Mongo.db.collection(collectionName)
-    const number = await collection.count()
+    const number = await collection.countDocuments()
     return number
   }
 }
