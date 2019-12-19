@@ -1,5 +1,8 @@
-import { AtomServiceInfo, AtomServiceInfoObj } from '../../service/atom-api-info'
+import { CONFIG_PATH }                          from '../../utils/config'
+import { logger }                               from '../../utils/logger'
+import { AtomServiceInfo, AtomServiceInfoObj }  from '../../service/atom-api-info'
 
+logger.log('load config file from %s', CONFIG_PATH)
 
 function sleep(mill: number): Promise<void> {
   return new Promise<void>(resolve => setTimeout(resolve, mill))
