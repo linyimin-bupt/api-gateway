@@ -1,0 +1,413 @@
+<style>
+    .apiname table,
+    tr,
+    td {
+        border: 1px solid #ddd;
+        /* border-radius: 100px; */
+        padding: 8px;
+        line-height: 1.42857143;
+        text-align: center;
+    }
+
+    .apiname th {
+        background-color: #666666;
+        padding: 8px;
+        line-height: 1.42857143;
+        text-align: center;
+        color: white;
+        border: 1px solid white;
+    }
+
+    .apiname tr {
+        border-left: none;
+    }
+
+    .apiname tr:hover {
+        background-color: #f3f1f1;
+    }
+
+    .apiname .tab {
+        width: 100%;
+    }
+
+    h4 {
+        margin-top: -10px;
+        margin-bottom: -50px;
+    }
+
+    .detail {
+        margin-top: 40px;
+    }
+
+    .detail th {
+        width: 100%;
+        margin-top: 40px;
+        padding: 8px;
+        line-height: 1.42857143;
+        text-align: left;
+        ;
+        font-size: 20px;
+        border: none;
+    }
+
+    .detail tr {
+        border-left: none;
+        border-right: none;
+    }
+
+    #select,
+    #found,
+    #search,
+    #area,
+    #creatAPI {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    #search {
+        margin-left: 250px;
+    }
+
+    .btn {
+        background-color: #00c1de !important;
+        color: #fff !important;
+    }
+
+    p {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .basic td {
+        border: none;
+    }
+
+    .basic tr {
+        border: none;
+    }
+
+    .basic th {
+        text-align: center;
+    }
+
+    .panel-title {
+        font-size: 16px;
+        color: #00c1df;
+    }
+
+    .console-mr2 {
+        color: rgb(86, 154, 221);
+    }
+
+    .console-mr {
+        color: #00c1de;
+    }
+
+    .console-form-header {
+        float: left;
+        padding: 5px 0;
+        text-align: right;
+        width: 35%;
+        padding: 9px 15px;
+    }
+
+    .console-form-row {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .console-textbox {
+        display: inline-block;
+        vertical-align: middle;
+        height: 32px;
+        padding: 6px;
+        transition: none;
+        font-size: 12px;
+        line-height: 145%;
+        outline: none;
+        border: 1px solid #CCC;
+        background: #FFF;
+        color: #555;
+        width: 40%;
+        border-radius: 4px;
+    }
+
+    .console-width-4 {
+        width: 33.33333333% !important;
+    }
+
+    .console-form-body {
+        float: none;
+        padding: 0 15px;
+    }
+
+    .console-radio,
+    .console-checkbox {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 28px;
+    }
+
+    .console-textarea {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 6px;
+        font-size: 12px;
+        line-height: 145%;
+        outline: none;
+        border: 1px solid #CCC;
+        background: #FFF;
+        color: #555;
+    }
+
+    .console-with-6 {
+        width: 50% !important;
+    }
+</style>
+<div class="contaier">
+    <div class="row">
+        <div class="col-md-12">
+            <p>组合API管理</p>
+            <hr>
+        </div>
+
+        <div class="col-md-2" style="float: right;">
+            <div class="form-group">
+                <a href="http://36.155.126.15:30000/" target="_blank" id="creatAPI" class="btn">创建组合API</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-6" style="margin-top:-45px">
+            <div class="table-responsive">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input id="found" class="from-control" placeholder="请填写查找的API名字" type="text">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <!-- 查看应用这个原子API的组合API都有哪些，在下面列出来 -->
+                        <button id="search" class="btn-default">search</button>
+                    </div>
+                </div>
+                <div class="apiname">
+                    <table class="tab">
+                        <tr class="table-title">
+                            <th style="width: 8%">组合api</th>
+                            <th style="width: 12%">请求方法</th>
+                            <th style="width: 8%">状态</th>
+                            <th style="width: 12%">操作</th>
+                        </tr>
+                        <tr *ngFor="let api of combinationAPI" [class.selected]="api === selectedApi" (click)="onSelect(api)" id="{{api.name}}">
+                            <td>
+                                <a class="console-mr">{{api.name}}</a>
+                            </td>
+                            <td>{{api.method}}</td>
+                            <td>{{api.status}}</td>
+                            <td>
+                                <!-- 跳转elk页面 -->
+                                <a href="http://36.155.126.15:45601/app/kibana#/discover?_g=()&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:apiName,key:apiName,negate:!f,params:(query:{{api.name}},type:phrase),type:phrase,value:{{api.name}}),query:(match:(apiName:(query:{{api.name}},type:phrase))))),index:apiName,interval:auto,query:(language:lucene,query:''),sort:!(_score,desc))"
+                                    class="console-mr2" target="_blank">日志</a>
+                                <span class="text-explode">|</span>
+                                <!-- 跳转swagger页面带name参数 -->
+                                <a href="http://36.155.126.15:30000/dist?name={{api.name}}" target="_blank" class="console-mr2">测试</a>
+                                <span class="text-explode">|</span>
+                                <a href="http://36.155.126.15:45601/app/kibana#/dashboard/01722d30-9b7c-11e8-b157-378b49c30284?_g=()&_a=(description:'',filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:apiName,key:apiName,negate:!f,params:(query:{{api.name}},type:phrase),type:phrase,value:{{api.name}}),query:(match:(apiName:(query:{{api.name}},type:phrase))))))"
+                                    target="_blank" class="console-mr2">性能</a>
+                                <br>
+                                <a *ngIf="api.status=='已发布'" class="console-mr2" data-toggle="modal" data-target="#myModal" (click)="off(api)">下线</a>
+                                <!-- <span *ngIf="api.status=='已创建'||api.status=='已下线'" class="text-explode">|</span> -->
+                                <a *ngIf="api.status=='已创建'||api.status=='已下线'" class="console-mr2" (click)="publish(api)">发布</a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">下线API</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                你确定要下线此API吗？
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                                                <button type="button" class="btn btn-primary" (click)='offline()'>Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span class="text-explode">|</span>
+                                <a class="console-mr2" data-toggle="modal" data-target="#deleteModal" (click)="deleteCombinationAPI(api)">删除</a>
+                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">删除API</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                你确定要删除此API吗？
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                                                <button type="button" class="btn btn-primary" (click)="deleteYes()">Yes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- 分页 -->
+            <page [(pagination)]="pagination"> </page>
+        </div>
+
+        <div class="col-md-6" style="border-left:1px #e6e6e6 solid;margin-top:5px">
+            <div style="margin-left:50px">
+                <div *ngIf="selectedApi">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h3 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        基本属性
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <table class="tab" class="basic">
+                                        <tr class="table-title">
+                                            <th style="width: 8%">api名称</th>
+                                            <th style="width: 8%">apiID</th>
+                                            <th style="width: 10%">服务地址</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{{selectedApi.name}}</td>
+                                            <td>{{selectedApi.id}}</td>
+                                            <td>{{selectedApi.combinationUrl}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="accordion3" role="tablist" aria-multiselectable="false" style="margin-top:5px">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h3 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree" aria-expanded="true"
+                                            aria-controls="collapseThree">
+                                            参数信息
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <table class="tab" class="basic" id="combinationAPI">
+                                            <tr class="table-title">
+                                                <th style="width: 12%">参数名</th>
+                                                <th style="width: 8%">参数类型</th>
+                                                <th style="width: 10%">是否必填</th>
+                                                <th style="width: 10%">参数描述</th>
+                                            </tr>
+                                            <tr *ngFor="let params of ComAPI">
+                                                <td>{{params.paramsName}}</td>
+                                                <td>{{params.paramsType}}</td>
+                                                <td>
+                                                    <i *ngIf="params.checkBox==true" class="glyphicon glyphicon-ok"></i>
+                                                    <i *ngIf="params.checkBox==false" class="glyphicon glyphicon-remove"></i>
+                                                </td>
+                                                <td>{{params.paramsDes}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="accordion5" role="tablist" aria-multiselectable="false" style="margin-top:5px">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingFive">
+                                    <h3 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion5" href="#collapseFive" aria-expanded="false"
+                                            aria-controls="collapseFive">
+                                            包含的原子API信息
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                                    <div class="panel-body">
+                                        <table class="tab" class="basic">
+                                            <tr class="table-title">
+                                                <th style="width: 8%">原子API名称</th>
+                                                <th style="width: 12%">URL</th>
+                                                <th style="width: 10%">方法</th>
+                                                <th style="width: 10%">类型</th>
+                                            </tr>
+                                            <tr *ngFor="let atom of selectedApi.atomic">
+                                                <td>{{atom.name}}</td>
+                                                <td>{{atom.atomUrl}}</td>
+                                                <td>{{atom.method}}</td>
+                                                <td>{{atom.type}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="accordion4" role="tablist" aria-multiselectable="false" style="margin-top:5px">
+                            <div *ngIf="selectedApi">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingFour">
+
+                                        <h3 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion4" href="#collapseFour" aria-expanded="false"
+                                                aria-controls="collapseFour">
+                                                响应值信息
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                        <div class="panel-body">
+                                            <table class="tab" class="basic">
+                                                <tr class="table-title">
+                                                    <th style="width: 8%">成功响应值</th>
+                                                    <th style="width: 12%">失败响应值</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{selectedApi.response.successResult}}</td>
+                                                    <td>{{selectedApi.response.errorResult}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

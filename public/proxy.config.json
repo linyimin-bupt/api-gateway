@@ -1,0 +1,22 @@
+{
+  "/api/*":{
+    "target":"http://172.27.11.103:31111",
+    "secure": false,
+    "pathRewrite": {"/api" : ""}
+  },
+  "/route/*":{
+    "target":"http://172.27.11.103:31111",
+    "secure": false,
+    "pathRewrite": {"/route" : ""}
+  },
+  "/flow/*":{
+    "target":"http://172.27.11.103:31111",
+    "secure": false,
+    "pathRewrite": {"/flow" : ""}
+  },
+  "/comAPI/*":{
+    "target":"http://172.27.11.103:10000/",
+    "secure": false,
+    "pathRewrite": {"/comAPI" : ""}
+  }
+}
